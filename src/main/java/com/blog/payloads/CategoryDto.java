@@ -14,11 +14,11 @@ public class CategoryDto {
 	private Integer categoryId;
 	
 	@NotBlank
-	@Size(max = 25)
+	@Size(max = 255)
 	private String categoryTitle;
 	
 	@NotBlank
-	@Size(max = 150)
+	@Size(max = 255)
 	private String categoryDescription;
 	
 	

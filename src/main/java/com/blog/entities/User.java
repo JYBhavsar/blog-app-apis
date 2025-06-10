@@ -24,8 +24,8 @@ import lombok.Setter;
 public class User {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
 	@Column(name = "user_name", nullable = false, length = 100)
 	private String name;
@@ -42,7 +42,6 @@ public class User {
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Post> posts = new ArrayList<>();
-	
 	
 	
 }

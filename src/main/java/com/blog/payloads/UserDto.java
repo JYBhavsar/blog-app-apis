@@ -17,7 +17,7 @@ public class UserDto {
 	 * (e.g., from the service layer to the controller layer).
 	 * */
 	
-	private int id;
+	private Long id;
 	
 	@NotEmpty
 	@Size(min=2, message =  "Username should be minimum of 2 characters")

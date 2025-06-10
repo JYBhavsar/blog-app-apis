@@ -1,7 +1,6 @@
 package com.blog.controllers;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -59,5 +58,6 @@ public class UserController {
 	public ResponseEntity<UserDto> getUserDetails(@PathVariable Integer userId){
 		return ResponseEntity.ok(this.userService.getUserById(userId));
 	}
+	
 	
 }
