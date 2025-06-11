@@ -11,11 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 @SpringBootApplication
-public class BlogAppApisApplication implements CommandLineRunner {
+public class BlogAppApisApplication{
 
-	@Autowired
-	private PasswordEncoder encoder;
-	
 	public static void main(String[] args) {
 		SpringApplication.run(BlogAppApisApplication.class, args);
 	}
@@ -25,11 +22,4 @@ public class BlogAppApisApplication implements CommandLineRunner {
 		return new ModelMapper();
 	}
 
-	@Override
-	public void run(String... args) throws Exception {
-		System.out.println("Encoded Password:-->>"+this.encoder.encode("alfred@123"));
-		// Dog@123 //alfred@123 
-	}
-	
-	
 }
