@@ -1,6 +1,5 @@
 package com.blog.security;
 
-import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,19 +11,15 @@ import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-
-import java.security.Key;
-import java.security.Signature;
 
 @Component
 public class JwtTokenHelper {
 
     public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
-    private String secret = "jwtTokenKey";
+    private String secret = "1234567890J1234567890J1234567890J1234567890";
 
     //Fetch username from jwt token
     public String getUsernameFromToken(String token) {
@@ -43,9 +38,7 @@ public class JwtTokenHelper {
 
     //To fetch any information from token we will need the secret key
     private Claims getAllClaimsFromToken(String token) {
-    	byte[] keyBytes = Decoders.BASE64.decode(secret);
-    	SecretKey key =  Keys.hmacShaKeyFor(keyBytes);
-        return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
+        return Jwts.parser().verifyWith(getSigningKey()).build().parseSignedClaims(token).getPayload();
     }
 
     //Check if the token has expired
@@ -62,15 +55,12 @@ public class JwtTokenHelper {
 
     private String doGenerateToken(Map<String, Object> claims, String subject) {
 
-    	//Key key = Keys.hmacShaKeyFor(secret.getBytes());
-    	Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
-    	
     	return Jwts.builder()
     				.claims(claims)
     				.subject(subject)
     				.issuedAt(new Date(System.currentTimeMillis()))
     				.expiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
-    				.signWith(key) // SignatureAlgorithm.HS512
+    				.signWith(getSigningKey()) // SignatureAlgorithm.HS512
     				.compact();
     }
 
@@ -80,4 +70,8 @@ public class JwtTokenHelper {
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 	
+    private SecretKey getSigningKey() {
+        byte[] keyBytes = Decoders.BASE64.decode(secret);
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
 }
