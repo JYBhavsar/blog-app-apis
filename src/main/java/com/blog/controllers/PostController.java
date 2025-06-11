@@ -56,28 +56,28 @@ public class PostController {
 	public ResponseEntity<PostResponse> getAllPost(
 			@RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
-			@RequestParam(value = "sortBy", defaultValue = "postId", required = false) String  sortBy,
+			@RequestParam(value = "sortBy", defaultValue = "id", required = false) String  sortBy,
 			@RequestParam(value = "sortDir", defaultValue = "asc", required = false) String  sortDir
 			){
 		PostResponse postResponse = this.postService.getAllPost(pageNumber, pageSize, sortBy, sortDir);
 		return new ResponseEntity<PostResponse>(postResponse,HttpStatus.OK);
 	}
 	
-	@GetMapping("/posts/{postId}")
-	public ResponseEntity<PostDto> getPostsById(@PathVariable Integer postId){
-		PostDto posts = this.postService.getPostById(postId);
+	@GetMapping("/posts/{id}")
+	public ResponseEntity<PostDto> getPostsById(@PathVariable Integer id){
+		PostDto posts = this.postService.getPostById(id);
 		return new ResponseEntity<PostDto>(posts,HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/posts/{postId}")
-	public ApiResponse deletePost(@PathVariable Integer postId) {
-		this.postService.deletePost(postId);
+	@DeleteMapping("/posts/{id}")
+	public ApiResponse deletePost(@PathVariable Integer id) {
+		this.postService.deletePost(id);
 		return new ApiResponse("Post is successfully deleted!!!", true);
 	}
 	
-	@PutMapping("/posts/{postId}")
-	public ResponseEntity<PostDto> updatePost(@RequestBody PostDto postDto, @PathVariable Integer postId) {
-		PostDto updatePost = this.postService.updatePost(postDto, postId);
+	@PutMapping("/posts/{id}")
+	public ResponseEntity<PostDto> updatePost(@RequestBody PostDto postDto, @PathVariable Integer id) {
+		PostDto updatePost = this.postService.updatePost(postDto, id);
 		return new ResponseEntity<PostDto>(updatePost, HttpStatus.OK);
 	}
 	

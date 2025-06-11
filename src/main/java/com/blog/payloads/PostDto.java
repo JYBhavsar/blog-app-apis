@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 public class PostDto {
 
-	private Integer postId;
+	private Integer id;
 	private String title;
 	private String content;
 	private String imageName;

@@ -8,12 +8,12 @@ import com.blog.payloads.PostResponse;
 public interface PostService {
 
 	PostDto createPost(PostDto postDto, Integer userId, Integer categoryId);
-	PostDto updatePost(PostDto postDto, Integer postId);
-	void deletePost(Integer postId);
+	PostDto updatePost(PostDto postDto, Integer id);
+	void deletePost(Integer id);
 	
 	PostResponse getAllPost(Integer pageNumber, Integer pageSize, String sortBy, String sortDir);
 	
-	PostDto getPostById(Integer postId);
+	PostDto getPostById(Integer id);
 	
 	List<PostDto> getPostByCategory(Integer categoryId);
 	

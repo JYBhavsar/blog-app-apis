@@ -20,14 +20,12 @@ public class UserDto {
 	private Long id;
 	
 	@NotEmpty
-	@Size(min=2, message =  "Username should be minimum of 2 characters")
 	private String name;
 	
 	@Email( message = "Email address is not valid!!")
 	private String email;
 	
 	@NotEmpty
-	@Size(min=3, max=10 , message = "Password must be minimum 3 chars to maximum 20 chars")
 	private String password;
 	
 	@NotNull
