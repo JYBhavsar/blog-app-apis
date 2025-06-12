@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ### Getting Started
 	 - Implementing Blog Application with user role base authentication
 
