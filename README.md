@@ -71,6 +71,16 @@ Layered approach:
 
 ---
 
+### 🧪 Test the API (via Postman)
+
+1. Import the `blog-api.postman_collection.json` file into Postman.
+2. Use the available requests to test login, post creation, category CRUD, etc.
+3. Ensure you've set up the local PostgreSQL DB before running requests.
+
+📥 [Download Postman Collection](./blog-api.postman_collection.json)
+
+---
+
 ## 🛡️ Status
 
 ✅ In active development  
