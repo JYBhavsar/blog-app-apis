@@ -25,12 +25,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	@Autowired
 	private JwtTokenHelper jwtTokenHelper;
 
+//	@Override
+//	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+//		String path = request.getRequestURI();
+//		return path.startsWith("/v3/api-docs") || path.startsWith("/swagger-ui.html");
+//	}
+
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException, IllegalArgumentException {
 
 		// Get Token
-		
+
 		String requestToken = request.getHeader("Authorization");
 		String username = null;
 		String token = null;
@@ -47,23 +53,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 			UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 			if (this.jwtTokenHelper.validateToken(token, userDetails)) {
-				
+
 				UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
 						userDetails, null, userDetails.getAuthorities());
 
 				authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
 				SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-			}else {
+			} else {
 				System.out.println("Invalid jwt Token!");
 			}
 		} else {
 			System.out.println("Username is null or context is not null");
 		}
 
-		
 		filterChain.doFilter(request, response);
-		
+
 	}
 
 }

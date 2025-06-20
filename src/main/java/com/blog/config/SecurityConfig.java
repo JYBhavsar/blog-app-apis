@@ -8,7 +8,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.blog.security.CustomUserDetailService;
 import com.blog.security.JwtAuthenticationEntryPoint;
@@ -24,7 +24,8 @@ import com.blog.security.JwtAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(securedEnabled = true)
+@EnableWebMvc
+@EnableMethodSecurity
 public class SecurityConfig{
 
 	@Autowired
@@ -43,7 +44,8 @@ public class SecurityConfig{
             
         	.authorizeHttpRequests((auth) -> auth
         			.requestMatchers("/api/v1/auth/**").permitAll()
-        			//.requestMatchers(HttpMethod.GET).permitAll() //Use to allow specific role and api access
+        			.requestMatchers(HttpMethod.GET,"/v3/**").permitAll()
+        			.requestMatchers(HttpMethod.GET,"/swagger-ui/**").permitAll()
         			.anyRequest().authenticated()
         	)
             

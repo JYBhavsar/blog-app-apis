@@ -5,11 +5,14 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.blog.exceptions.*;
+import com.blog.entities.Role;
 import com.blog.entities.User;
+import com.blog.exceptions.ResourceNotFoundException;
 import com.blog.payloads.UserDto;
+import com.blog.repositories.RoleRepo;
 import com.blog.repositories.UserRepo;
 import com.blog.services.UserService;
 
@@ -18,10 +21,15 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepo userRepo;
-
 	
 	@Autowired
 	public ModelMapper modelMapper;
+	
+	@Autowired
+	private PasswordEncoder encoder;
+	
+	@Autowired
+	private RoleRepo roleRepo;
 	
 	@Override
 	public UserDto createUser(UserDto userDto) {
@@ -67,24 +75,29 @@ public class UserServiceImpl implements UserService {
 
 	public User dtoToUser(UserDto userDto) {
 		User user = this.modelMapper.map(userDto, User.class); 
-		/*
-		 * Using ModelMapper We do not have to set manual getter and setter calls for each field.
-		 * It simplifies the process of mapping objects to each other.
-		 * */
-		
-		/*User user = new User();
-		user.setId(userDto.getId());
-		user.setName(userDto.getName());
-		user.setEmail(userDto.getEmail());
-		user.setAbout(userDto.getAbout());
-		user.setPassword(userDto.getPassword());*/
-		
 		return user;
 	}
 
 	public UserDto userToDto(User user) {
 		UserDto userDto = this.modelMapper.map(user, UserDto.class);
 		return userDto;
+	}
+
+	@Override
+	public UserDto registerNewUser(UserDto userDto) {
+		User user = this.modelMapper.map(userDto, User.class);
+		
+		//encoded the password+
+		user.setPassword(this.encoder.encode(user.getPassword()));
+		
+		//roles
+		Role role = this.roleRepo.findById(1).get();
+		
+		user.getRoles().add(role);
+		
+		User newUser = this.userRepo.save(user);
+		
+		return this.modelMapper.map(newUser, UserDto.class);
 	}
 
 }
