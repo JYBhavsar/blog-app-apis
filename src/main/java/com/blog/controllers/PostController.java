@@ -70,7 +70,7 @@ public class PostController {
 	}
 	
 	//Delete post by ADMIN only
-	@PreAuthorize("hasRole('ADMIN')")
+	//@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/posts/{id}")
 	public ApiResponse deletePost(@PathVariable Integer id) {
 		this.postService.deletePost(id);
