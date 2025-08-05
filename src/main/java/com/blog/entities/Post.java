@@ -2,12 +2,15 @@ package com.blog.entities;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -25,10 +28,10 @@ public class Post {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "post_title", length = 155, nullable = false)
+	@Column(name = "post_title", nullable = false)
 	private String title;
 	
-	@Column(name = "content", length = 155, nullable = false)
+	@Column(name = "content", nullable = false)
 	private String content;
 	
 	@Column(name = "image_name", length = 155)

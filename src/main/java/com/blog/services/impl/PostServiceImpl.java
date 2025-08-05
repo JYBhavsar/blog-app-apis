@@ -1,5 +1,6 @@
 package com.blog.services.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -77,15 +78,23 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public PostResponse getAllPost(Integer pageNumber, Integer pageSize, String sortBy, String sortDir) {
 		
-		Sort sort = (sortDir.equalsIgnoreCase("asc"))?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy HH:mm:ss");
 		
+		Sort sort = (sortDir.equalsIgnoreCase("asc"))?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
 		
 		Pageable p = PageRequest.of(pageNumber, pageSize, sort);
 		Page<Post> pagePost = this.postRepo.findAll(p);
 		
-		
 		List<Post> allPost = pagePost.getContent();
-		List<PostDto> postDtos =  allPost.stream().map((post) -> this.modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
+		List<PostDto> postDtos =  allPost.stream().map((post) -> {
+			PostDto postDto = this.modelMapper.map(post, PostDto.class);
+			return postDto;
+		}).collect(Collectors.toList());
+		
+		
+		
+		
+		
 		
 		PostResponse postResponse = new PostResponse(postDtos, pagePost.getNumber(), 
 				pagePost.getSize(), 

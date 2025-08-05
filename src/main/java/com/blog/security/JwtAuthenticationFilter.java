@@ -25,22 +25,25 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	@Autowired
 	private JwtTokenHelper jwtTokenHelper;
 
-//	@Override
-//	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-//		String path = request.getRequestURI();
-//		return path.startsWith("/v3/api-docs") || path.startsWith("/swagger-ui.html");
-//	}
-
+	protected boolean shouldNotFilter(HttpServletRequest request) {
+		return request.getServletPath().startsWith("/api/posts")
+				|| request.getServletPath().startsWith("/api/comments")
+				|| request.getServletPath().startsWith("/api/user")
+				|| request.getServletPath().startsWith("/api/v1/auth");
+	}
+	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException, IllegalArgumentException {
-
-		// Get Token
 
 		String requestToken = request.getHeader("Authorization");
 		String username = null;
 		String token = null;
 
+		if(shouldNotFilter(request)) {
+			return;
+		}
+		
 		if (requestToken != null && requestToken.startsWith("Bearer")) {
 			token = requestToken.substring(7);
 			username = this.jwtTokenHelper.getUsernameFromToken(token);
