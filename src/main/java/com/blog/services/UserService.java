@@ -11,6 +11,7 @@ public interface UserService {
 	UserDto createUser(UserDto user);
 	UserDto updateUser(UserDto user, Integer userId);
 	UserDto getUserById(Integer userId);
+	UserDto getUserByEmail(String email);
 	
 	List<UserDto> getAllUsers();
 	

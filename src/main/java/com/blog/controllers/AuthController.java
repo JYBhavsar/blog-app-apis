@@ -51,8 +51,21 @@ public class AuthController {
 
 		String token = this.jwtTokenHelper.generateToken(userDetails);
 
+		UserDto user = userService.getUserByEmail(request.getUsername());
+		if (user == null) {
+			throw new ApiException("User not found with username: " + request.getUsername());
+		}
+		UserDto userDto = new UserDto();
+	    userDto.setId(user.getId());
+	    userDto.setName(user.getName());
+	    userDto.setEmail(user.getEmail());
+	    userDto.setRoles(user.getRoles());
+	    //userDto.setAvatar(user.getAvatar());
+	    //userDto.setCreatedAt(user.getCreatedAt());
+		
 		JwtAuthResponse response = new JwtAuthResponse();
 		response.setToken(token);
+		response.setUser(userDto);
 
 		return new ResponseEntity<JwtAuthResponse>(response, HttpStatus.OK);
 	}

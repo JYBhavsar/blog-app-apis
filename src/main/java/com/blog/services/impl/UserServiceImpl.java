@@ -85,6 +85,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDto registerNewUser(UserDto userDto) {
+		
 		User user = this.modelMapper.map(userDto, User.class);
 		
 		//encoded the password+
@@ -98,6 +99,12 @@ public class UserServiceImpl implements UserService {
 		User newUser = this.userRepo.save(user);
 		
 		return this.modelMapper.map(newUser, UserDto.class);
+	}
+
+	@Override
+	public UserDto getUserByEmail(String email) {
+		User user = this.userRepo.findByEmail(email).orElseThrow(()-> new ResourceNotFoundException("Email", email));
+		return this.userToDto(user);
 	}
 
 }
