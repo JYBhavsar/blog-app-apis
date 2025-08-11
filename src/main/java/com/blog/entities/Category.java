@@ -1,7 +1,10 @@
 package com.blog.entities;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -32,6 +35,14 @@ public class Category {
 	
 	@Column(name = "description")
 	private String categoryDescription;
+	
+	@Column(name = "created_at")
+	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+	private Date createdAt;
+	
+	@Column(name = "updated_at")
+	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+	private Date updatedAt;
 	
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Post> posts = new ArrayList<>();

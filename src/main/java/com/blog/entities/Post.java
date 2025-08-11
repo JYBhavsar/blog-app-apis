@@ -31,18 +31,33 @@ public class Post {
 	@Column(name = "post_title", nullable = false)
 	private String title;
 	
+	@Column(name = "post_slug", nullable = false)
+	private String slug;
+	
 	@Column(name = "content", nullable = false)
 	private String content;
 	
-	@Column(name = "image_name", length = 155)
-	private String imageName;
+	@Column(name = "status", nullable = false)
+	private String status; // draft, published
 	
-	@Column(name = "added_date", nullable = false)
-	private Date addedDate;
+	@Column(name = "image_url")
+	private String imageUrl;
+	
+	@Column(name = "created_at")
+	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+	private Date createdAt;
+	
+	@Column(name = "updated_at")
+	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+	private Date updatedAt;
 	
 	@ManyToOne
 	@JoinColumn(name = "category_id")
 	private Category category;
+	
+	@ManyToOne
+	@JoinColumn(name = "tag_id")
+	private Tags tags;
 	
 	@ManyToOne
 	private User user;

@@ -14,10 +14,13 @@ public class PostDto {
 
 	private Integer id;
 	private String title;
+	private String slug;
 	private String content;
-	private String imageName;
+	private String status;
+	private String imageUrl;
 
-	private Date addedDate;
+	private Date createdAt;
+	private Date updatedAt;
 	
 	private CategoryDto category;
 	private UserDto user;

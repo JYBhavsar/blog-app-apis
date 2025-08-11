@@ -29,6 +29,13 @@ import com.blog.security.JwtAuthenticationFilter;
 @EnableMethodSecurity
 public class SecurityConfig{
 
+	private static final String[] AUTH_WHITE_LIST = {
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/v2/api-docs/**",
+            "/swagger-resources/**"
+    };
+	
     @Autowired
 	private CustomUserDetailService userDetailService;
 	
@@ -48,15 +55,8 @@ public class SecurityConfig{
         	.csrf(csrf -> csrf.disable())
             
         	.authorizeHttpRequests((auth) -> auth
-					.requestMatchers("/api/**").permitAll()
 					.requestMatchers("/api/user/**").permitAll()
-        			.requestMatchers("/api/v1/auth/**").permitAll()
-        			// .requestMatchers(HttpMethod.GET,
-        			// 		"/v2/**",
-        			// 		"/v3/**",
-        			// 		"/swagger-ui/**",
-        			// 		"/swagger-resources/**",
-        			// 		"/webjars/**").permitAll()
+        			.requestMatchers(AUTH_WHITE_LIST).permitAll()
         			.anyRequest().authenticated()
         	)
             

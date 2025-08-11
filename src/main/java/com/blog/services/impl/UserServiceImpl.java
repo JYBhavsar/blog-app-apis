@@ -33,8 +33,12 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public UserDto createUser(UserDto userDto) {
+		
 		User user = this.dtoToUser(userDto);
+		Role role = this.roleRepo.findById(1).orElseThrow(() -> new ResourceNotFoundException("Role", "Id", 2));
+		user.getRoles().add(role);
 		User savedUser = this.userRepo.save(user);
+		
 		return this.userToDto(savedUser);
 	}
 
@@ -87,15 +91,9 @@ public class UserServiceImpl implements UserService {
 	public UserDto registerNewUser(UserDto userDto) {
 		
 		User user = this.modelMapper.map(userDto, User.class);
-		
-		//encoded the password+
 		user.setPassword(this.encoder.encode(user.getPassword()));
-		
-		//roles
 		Role role = this.roleRepo.findById(2).get();
-		
 		user.getRoles().add(role);
-		
 		User newUser = this.userRepo.save(user);
 		
 		return this.modelMapper.map(newUser, UserDto.class);

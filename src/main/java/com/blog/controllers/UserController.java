@@ -18,16 +18,20 @@ import com.blog.payloads.ApiResponse;
 import com.blog.payloads.UserDto;
 import com.blog.services.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/user")
 public class UserController {
 
 	@Autowired
 	private UserService userService;
 	
 	//Post-create user
+	@Operation(summary = "Create an admin user only", 
+			description = "This API is used to create a new admin."
+					+ "It accepts user details and returns the registered user's information.")
 	@PostMapping("/")
 	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto){
 		UserDto createUserDto = this.userService.createUser(userDto);

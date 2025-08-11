@@ -1,6 +1,9 @@
 package com.blog.controllers;
 import com.blog.services.UserService;
 import com.blog.services.impl.UserServiceImpl;
+
+import io.swagger.v3.oas.annotations.Operation;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +24,7 @@ import com.blog.payloads.UserDto;
 import com.blog.security.JwtTokenHelper;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/user")
 public class AuthController {
 
     private final UserServiceImpl userServiceImpl;
@@ -42,6 +45,8 @@ public class AuthController {
         this.userServiceImpl = userServiceImpl;
     }
 
+    @Operation(summary = "Login a user", 
+			description = "This API is used to auntheticate a user and generate a JWT token.")
 	@PostMapping("/login")
 	public ResponseEntity<JwtAuthResponse> createToken(@RequestBody JwtAuthRequest request) throws Exception {
 
@@ -81,6 +86,9 @@ public class AuthController {
 		
 	}
 	
+	@Operation(summary = "Register a new blog users only not for admin", 
+			description = "This API is used to register a new user in the blog application. "
+					+ "It accepts user details and returns the registered user's information.")
 	@PostMapping("/register")
 	public ResponseEntity<UserDto> registerUser(@RequestBody UserDto userDto){
 		UserDto registeredUser = this.userService.registerNewUser(userDto);
