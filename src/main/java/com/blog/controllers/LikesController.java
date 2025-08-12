@@ -16,6 +16,8 @@ import com.blog.payloads.ApiResponse;
 import com.blog.payloads.LikesDto;
 import com.blog.services.LikesService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/api/auth/")
 public class LikesController {
@@ -24,6 +26,8 @@ public class LikesController {
 	@Autowired
 	private LikesService likesService;
 	
+	@Operation(summary = "Create Like", 
+			description = "This endpoint allows you to like a post by a specific user.")
 	@PostMapping("posts/{postId}/users/{userId}/likes")
 	public ResponseEntity<LikesDto> createLike(@PathVariable Integer postId,@PathVariable Integer userId) {
 		LikesDto likesDto = new LikesDto();
@@ -31,6 +35,8 @@ public class LikesController {
 		return new ResponseEntity<LikesDto>(CreateLike, HttpStatus.CREATED);
 	}
 	
+	@Operation(summary = "Delete Like",
+			description = "This endpoint allows you to unlike a post by a specific user.")
     @DeleteMapping("posts/{postId}/users/{userId}/likes")
     public ResponseEntity<ApiResponse> deleteLike(
             @PathVariable Integer postId,
@@ -42,12 +48,16 @@ public class LikesController {
     }
 	
     
+	@Operation(summary = "Get Likes Count by Post",
+			description = "This endpoint allows you to retrieve the count of likes for a specific post.")
     @GetMapping("posts/{postId}/likes/count")
     public ResponseEntity<LikesDto> getLikesCountByPost(@PathVariable Integer postId) {
         LikesDto likeCountDto = this.likesService.getLikesCountByPost(postId);
         return new ResponseEntity<>(likeCountDto, HttpStatus.OK);
     }
     
+	@Operation(summary = "Get Likes by Post",
+			description = "This endpoint allows you to retrieve all likes for a specific post.")
     @GetMapping("posts/{postId}/likes")
     public ResponseEntity<List<LikesDto>> getLikedByPost(@PathVariable Integer postId) {
         List<LikesDto> likes = this.likesService.getLikedByPost(postId);

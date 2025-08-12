@@ -19,6 +19,7 @@ import com.blog.payloads.ApiResponse;
 import com.blog.payloads.CategoryDto;
 import com.blog.services.CategoryService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 @RestController
@@ -28,29 +29,39 @@ public class CategoryController {
 	@Autowired
 	private CategoryService categoryService;
 
+	@Operation(summary = "Create Category", 
+			description = "This endpoint allows you to create a new category.")
 	@PostMapping("/")
 	public ResponseEntity<CategoryDto> createCategory(@Valid @RequestBody CategoryDto categoryDto){
 		CategoryDto createCategory = this.categoryService.createCategory(categoryDto);
 		return new ResponseEntity<CategoryDto>(createCategory, HttpStatus.CREATED);
 	}
 	
+	@Operation(summary = "Update Category", 
+			description = "This endpoint allows you to update an existing category by its ID.")
 	@PutMapping("/{catId}")
 	public ResponseEntity<CategoryDto> updateCategory(@Valid @RequestBody CategoryDto categoryDto, @PathVariable("catId") Integer catId){
 		CategoryDto updateCategory = this.categoryService.updateCategory(categoryDto, catId);
 		return new ResponseEntity<CategoryDto>(updateCategory, HttpStatus.OK);
 	}
 	
+	@Operation(summary = "Delete Category", 
+			description = "This endpoint allows you to delete a category by its ID.")
 	@DeleteMapping("/{catId}")
 	public ResponseEntity<ApiResponse> deleteCategory(@PathVariable("catId")Integer catId){
 		this.categoryService.deleteCategory(catId);
 		return new ResponseEntity<ApiResponse>(new ApiResponse("Category Deleted Successfully",true), HttpStatus.OK);
 	}
 	
+	@Operation(summary = "Get All Categories", 
+			description = "This endpoint allows you to retrieve all categories.")
 	@GetMapping("/")
 	public ResponseEntity<List<CategoryDto>> getAllCategories(){
 		return ResponseEntity.ok(this.categoryService.getCategories());
 	}
 	
+	@Operation(summary = "Get Category by ID", 
+			description = "This endpoint allows you to retrieve a category by its ID.")
 	@GetMapping("/{catId}")
 	public ResponseEntity<CategoryDto> getCategory(@PathVariable Integer catId){
 		return ResponseEntity.ok(this.categoryService.getCategory(catId));

@@ -47,5 +47,4 @@ public class Comments {
 	private User user;
 	
 	
-	
 }

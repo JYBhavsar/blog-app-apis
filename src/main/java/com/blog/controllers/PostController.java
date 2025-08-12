@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +20,8 @@ import com.blog.payloads.PostDto;
 import com.blog.payloads.PostResponse;
 import com.blog.services.PostService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/api/auth/")
 public class PostController {
@@ -28,6 +29,8 @@ public class PostController {
 	@Autowired
 	private PostService postService;
 	
+	@Operation(summary = "Create Post", 
+			description = "This endpoint allows you to create a new post.")
 	@PostMapping("user/{userId}/category/{categoryId}/posts")
 	public ResponseEntity<PostDto> createPost(
 			@RequestBody PostDto postDto,
@@ -39,18 +42,24 @@ public class PostController {
 		return new ResponseEntity<PostDto>(createPost, HttpStatus.CREATED);
 	}
 	
+	@Operation(summary = "Get Posts by User", 
+			description = "This endpoint allows you to retrieve all posts by a specific user.")
 	@GetMapping("user/{userId}/posts")
 	public ResponseEntity<List<PostDto>> getPostsByUser(@PathVariable Integer userId){
 		List<PostDto> posts = this.postService.getPostByUser(userId);
 		return new ResponseEntity<List<PostDto>>(posts,HttpStatus.OK);
 	}
 	
+	@Operation(summary = "Get Posts by Category", 
+			description = "This endpoint allows you to retrieve all posts in a specific category.")
 	@GetMapping("category/{categoryId}/posts")
 	public ResponseEntity<List<PostDto>> getPostsByCategory(@PathVariable Integer categoryId){
 		List<PostDto> posts = this.postService.getPostByCategory(categoryId);
 		return new ResponseEntity<List<PostDto>>(posts,HttpStatus.OK);
 	}
 	
+	@Operation(summary = "Get All Posts", 
+			description = "This endpoint allows you to retrieve all posts with pagination and sorting options.")
 	@GetMapping("posts")
 	public ResponseEntity<PostResponse> getAllPost(
 			@RequestParam(value = "page", defaultValue = "0", required = false) Integer pageNumber,
@@ -62,18 +71,24 @@ public class PostController {
 		return new ResponseEntity<PostResponse>(postResponse,HttpStatus.OK);
 	}
 	
+	@Operation(summary = "Get Post by ID", 
+			description = "This endpoint allows you to retrieve a post by its ID.")
 	@GetMapping("posts/{id}")
 	public ResponseEntity<PostDto> getPostsById(@PathVariable Integer id){
 		PostDto posts = this.postService.getPostById(id);
 		return new ResponseEntity<PostDto>(posts,HttpStatus.OK);
 	}
 	
+	@Operation(summary = "Delete Post", 
+			description = "This endpoint allows you to delete a post by its ID.")
 	@DeleteMapping("posts/{id}")
 	public ApiResponse deletePost(@PathVariable Integer id) {
 		this.postService.deletePost(id);
 		return new ApiResponse("Post is successfully deleted!!!", true);
 	}
 	
+	@Operation(summary = "Update Post", 
+			description = "This endpoint allows you to update an existing post by its ID.")
 	@PutMapping("posts/{id}")
 	public ResponseEntity<PostDto> updatePost(@RequestBody PostDto postDto, @PathVariable Integer id) {
 		PostDto updatePost = this.postService.updatePost(postDto, id);

@@ -19,7 +19,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Tags {
+public class Tag {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

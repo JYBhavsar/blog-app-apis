@@ -2,6 +2,7 @@ package com.blog.payloads;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,10 @@ public class PostDto {
 	private String status;
 	private String imageUrl;
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss", timezone = "Asia/Kolkata")
 	private Date createdAt;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss", timezone = "Asia/Kolkata")
 	private Date updatedAt;
 	
 	private CategoryDto category;

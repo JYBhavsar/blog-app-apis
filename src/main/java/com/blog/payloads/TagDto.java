@@ -11,24 +11,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class LikesDto {
+public class TagDto {
 
 	private Long id;
+	private String tagName;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss", timezone = "Asia/Kolkata")
 	private Date createdAt;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss", timezone = "Asia/Kolkata")
 	private Date updatedAt;
-	
-	private PostDto postDto;
-	
-	private UserDto userDto;
-	
-	private Long likeCount;
-	
-	public LikesDto(Long likeCount) {
-        this.likeCount = likeCount;
-    }
-	
 }

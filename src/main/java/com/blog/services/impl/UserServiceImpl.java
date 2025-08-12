@@ -37,6 +37,8 @@ public class UserServiceImpl implements UserService {
 		User user = this.dtoToUser(userDto);
 		Role role = this.roleRepo.findById(1).orElseThrow(() -> new ResourceNotFoundException("Role", "Id", 2));
 		user.getRoles().add(role);
+		// Encoding the password before saving the user
+		user.setPassword(this.encoder.encode(user.getPassword()));
 		User savedUser = this.userRepo.save(user);
 		
 		return this.userToDto(savedUser);
@@ -44,18 +46,28 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDto updateUser(UserDto userDto, Integer userId) {
-		User user = this.userRepo.findById(userId)
-				.orElseThrow(() -> new ResourceNotFoundException("User"," id ", userId));
-		
-		user.setName(userDto.getName());
-		user.setEmail(userDto.getEmail());
-		user.setPassword(userDto.getPassword());
-		user.setAbout(userDto.getAbout());
-		
-		User updateUser = this.userRepo.save(user);
-		UserDto userDto1 =  this.userToDto(updateUser);
-		
-		return userDto1;
+	    User user = this.userRepo.findById(userId)
+	            .orElseThrow(() -> new ResourceNotFoundException("User", " id ", userId));
+
+	    if (userDto.getName() != null) {
+	        user.setName(userDto.getName());
+	    }
+	    if (userDto.getEmail() != null) {
+	        user.setEmail(userDto.getEmail());
+	    }
+	    if (userDto.getAbout() != null) {
+	        user.setAbout(userDto.getAbout());
+	    }
+	    if (userDto.getPassword() != null && !userDto.getPassword().isEmpty()) {
+	        user.setPassword(this.encoder.encode(userDto.getPassword()));
+	    }
+	    if (userDto.getRoles() != null) {
+	        // You would need to handle this carefully to merge roles, not replace them
+	        // For example: user.setRoles(dtoRoles);
+	    }
+
+	    User updatedUser = this.userRepo.save(user);
+	    return this.userToDto(updatedUser);
 	}
 
 	@Override

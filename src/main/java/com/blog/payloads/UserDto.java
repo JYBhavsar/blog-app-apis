@@ -14,24 +14,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserDto {
-	/*
-	 * DTOs Objects used to transfer data between layers of your application 
-	 * (e.g., from the service layer to the controller layer).
-	 * */
-	
+		
 	private Long id;
-	
-	@NotEmpty
 	private String name;
-	
-	@Email( message = "Email address is not valid!!")
 	private String email;
-	
-	@NotEmpty
 	private String password;
-	
-	@NotNull
-	@NotEmpty
 	private String about;
 	
 	private Set<RoleDto> roles = new HashSet<>();

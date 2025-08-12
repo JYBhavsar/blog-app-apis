@@ -18,6 +18,8 @@ import com.blog.payloads.ApiResponse;
 import com.blog.payloads.CommentsDto;
 import com.blog.services.CommentsService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/api/auth/")
 public class CommentController {
@@ -25,6 +27,8 @@ public class CommentController {
     @Autowired
     private CommentsService commentsService;
     
+    @Operation(summary = "Create Comment", 
+			description = "This endpoint allows you to create a new comment on a post.")
     @PostMapping("posts/{postId}/users/{userId}/comments")
     public ResponseEntity<CommentsDto> createComment(
         @RequestBody CommentsDto commentsDto,
@@ -35,6 +39,8 @@ public class CommentController {
         return new ResponseEntity<>(createdComment, HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Get Comment by ID",
+    		description = "This endpoint allows you to retrieve a comment by its ID.")
     @PutMapping("comments/{commentId}")
     public ResponseEntity<CommentsDto> updateComment(
         @RequestBody CommentsDto commentsDto,
@@ -44,12 +50,16 @@ public class CommentController {
         return new ResponseEntity<>(updatedComment, HttpStatus.OK);
     }
     
+    @Operation(summary = "Delete Comment by ID",
+			description = "This endpoint allows you to delete a comment by its ID.")
     @DeleteMapping("comments/{commentId}")
     public ResponseEntity<ApiResponse> deleteComment(@PathVariable Long commentId) {
         this.commentsService.deleteComment(commentId);
         return new ResponseEntity<>(new ApiResponse("Comment deleted successfully!", true), HttpStatus.OK);
     }
  
+    @Operation(summary = "Get Comments by Post",
+    		description = "This endpoint allows you to retrieve all comments for a specific post.")
     @GetMapping("posts/{postId}/comments")
     public ResponseEntity<List<CommentsDto>> getCommentsByPost(@PathVariable Integer postId) {
         List<CommentsDto> comments = this.commentsService.getCommentsByPost(postId);

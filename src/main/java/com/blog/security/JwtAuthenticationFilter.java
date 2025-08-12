@@ -26,10 +26,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	private JwtTokenHelper jwtTokenHelper;
 
 	protected boolean shouldNotFilter(HttpServletRequest request) {
-		return request.getServletPath().startsWith("/api/posts")
-				|| request.getServletPath().startsWith("/api/comments")
-				|| request.getServletPath().startsWith("/api/users")
-				|| request.getServletPath().startsWith("/api/v1/auth");
+		return request.getServletPath().startsWith("/api/user") || 
+			   request.getServletPath().startsWith("/v3/api-docs") || 
+			   request.getServletPath().startsWith("/swagger-ui") || 
+			   request.getServletPath().startsWith("/v2/api-docs") || 
+			   request.getServletPath().startsWith("/swagger-resources");
 	}
 	
 	@Override
@@ -50,8 +51,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		} else {
 			System.out.println("JWT Token is either null or does not start with Bearer");
 		}
-
-		// Validate Token
 
 		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 			UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
